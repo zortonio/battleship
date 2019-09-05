@@ -35,22 +35,60 @@ def placeShips():
         board[y][x]=i["marker"]
         print(i["marker"]+":",x,y)
     printBoard()
+    isValid(test[0],x,y)
 
 
 def isValid(ship,x,y):
     valid = False
+    pos_direct = [1,2,3,4]
     while valid == False:
-        pos_direct = [1,2,3,4]
         direct = random.choice(pos_direct)
 
         if direct==1:
             if y-(ship["size"]-1) < 0:
-                pos_direct.pop(direct)
+                pos_direct.remove(direct)
                 continue
             else:
-                pass
+                i=(ship["size"]-1)
+                while i > 0:
+                    board[y-i][x]=ship["marker"]
+                    i-=1
+                valid = True
+                printBoard()
+        elif direct==2:
+            if x+(ship["size"]-1) > 10:
+                pos_direct.remove(direct)
+                continue
+            else:
+                i=(ship["size"]-1)
+                while i > 0:
+                    board[y][x+i]=ship["marker"]
+                    i-=1
+                valid = True
+                printBoard()
+        elif direct==3:
+            if y+(ship["size"]-1) > 8:
+                pos_direct.remove(direct)
+                continue
+            else:
+                i=(ship["size"]-1)
+                while i > 0:
+                    board[y+i][x]=ship["marker"]
+                    i-=1
+                valid = True
+                printBoard()
+        else:
+            if x-(ship["size"]-1) < 0:
+                pos_direct.remove(direct)
+                continue
+            else:
+                i=(ship["size"]-1)
+                while i > 0:
+                    board[y][x-i]=ship["marker"]
+                    i-=1
+                valid = True
+                printBoard() 
 
 
 generateBoard()
-printBoard()
-# placeShips()
+placeShips()
