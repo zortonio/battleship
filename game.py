@@ -28,14 +28,21 @@ def printBoard():
     print("  "+"A B C D E F G H I J K")
 
 def placeShips():
-    test = [{"name": "carrier", "size": 5, "position":[],"marker": "C"}]
-    for i in test:
-        x = random.randint(0,10)
-        y = random.randint(0,8)
-        board[y][x]=i["marker"]
-        print(i["marker"]+":",x,y)
+    # test = [{"name": "carrier", "size": 5, "position":[],"marker": "C"},
+    #         {"name": "destroyer", "size": 2, "position":[], "marker": "D"}]
+    for i in ships:
+        valid = False
+        while valid==False:
+            x = random.randint(0,10)
+            y = random.randint(0,8)
+            if board[y][x]==0:
+                valid = True
+                board[y][x]=i["marker"]
+                # print(i["marker"]+":",x,y)
+                isValid(i,x,y)
+            else:
+                continue
     printBoard()
-    isValid(test[0],x,y)
 
 
 def isValid(ship,x,y):
@@ -49,45 +56,61 @@ def isValid(ship,x,y):
                 pos_direct.remove(direct)
                 continue
             else:
+                for i in range(1,ship["size"]): 
+                    if not board[y-i][x]==0:
+                        pos_direct.remove(direct)
+                        continue
+                
                 i=(ship["size"]-1)
                 while i > 0:
                     board[y-i][x]=ship["marker"]
                     i-=1
                 valid = True
-                printBoard()
         elif direct==2:
             if x+(ship["size"]-1) > 10:
                 pos_direct.remove(direct)
                 continue
             else:
+                for i in range(1,ship["size"]): 
+                    if not board[y][x+i]==0:
+                        pos_direct.remove(direct)
+                        continue
+
                 i=(ship["size"]-1)
                 while i > 0:
                     board[y][x+i]=ship["marker"]
                     i-=1
                 valid = True
-                printBoard()
         elif direct==3:
             if y+(ship["size"]-1) > 8:
                 pos_direct.remove(direct)
                 continue
             else:
+                for i in range(1,ship["size"]): 
+                    if not board[y+i][x]==0:
+                        pos_direct.remove(direct)
+                        continue
+
                 i=(ship["size"]-1)
                 while i > 0:
                     board[y+i][x]=ship["marker"]
                     i-=1
                 valid = True
-                printBoard()
         else:
             if x-(ship["size"]-1) < 0:
                 pos_direct.remove(direct)
                 continue
             else:
+                for i in range(1,ship["size"]): 
+                    if not board[y][x-i]==0:
+                        pos_direct.remove(direct)
+                        continue
+
                 i=(ship["size"]-1)
                 while i > 0:
                     board[y][x-i]=ship["marker"]
                     i-=1
                 valid = True
-                printBoard() 
 
 
 generateBoard()
