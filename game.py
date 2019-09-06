@@ -44,73 +44,101 @@ def placeShips():
                 continue
     printBoard()
 
-
 def isValid(ship,x,y):
     valid = False
     pos_direct = [1,2,3,4]
     while valid == False:
         direct = random.choice(pos_direct)
 
-        if direct==1:
+        if direct == 1:
             if y-(ship["size"]-1) < 0:
                 pos_direct.remove(direct)
                 continue
             else:
-                for i in range(1,ship["size"]): 
-                    if not board[y-i][x]==0:
+                place = True
+                for i in range(1,ship["size"]-1):
+                    if board[y-i][x] != 0:
                         pos_direct.remove(direct)
-                        continue
+                        place = False
+                        break
                 
-                i=(ship["size"]-1)
-                while i > 0:
-                    board[y-i][x]=ship["marker"]
-                    i-=1
-                valid = True
-        elif direct==2:
+                if place == False:
+                    continue
+                else:
+                    i=(ship["size"]-1)
+                    while i > 0:
+                        board[y-i][x]=ship["marker"]
+                        i-=1
+                    valid = True  
+        elif direct == 2:
+            # Check whether ship falls outside the board range
             if x+(ship["size"]-1) > 10:
                 pos_direct.remove(direct)
                 continue
             else:
-                for i in range(1,ship["size"]): 
-                    if not board[y][x+i]==0:
+                place = True
+                # Check whether placement path is clear
+                for i in range(1,ship["size"]-1):
+                    if board[y][x+i] != 0:
                         pos_direct.remove(direct)
-                        continue
-
-                i=(ship["size"]-1)
-                while i > 0:
-                    board[y][x+i]=ship["marker"]
-                    i-=1
-                valid = True
-        elif direct==3:
+                        place = False
+                        break
+                
+                # Is placement Valid? If not, restart loop with different direction. If so, place ship on board.
+                if place == False:
+                    continue
+                else:
+                    i=(ship["size"]-1)
+                    while i > 0:
+                        board[y][x+i]=ship["marker"]
+                        i-=1
+                    valid = True
+        elif direct == 3:
+            # Check whether ship falls outside the board range
             if y+(ship["size"]-1) > 8:
                 pos_direct.remove(direct)
                 continue
             else:
-                for i in range(1,ship["size"]): 
-                    if not board[y+i][x]==0:
+                place = True
+                # Check whether placement path is clear
+                for i in range(1,ship["size"]-1):
+                    if board[y+i][x] != 0:
                         pos_direct.remove(direct)
-                        continue
-
-                i=(ship["size"]-1)
-                while i > 0:
-                    board[y+i][x]=ship["marker"]
-                    i-=1
-                valid = True
+                        place = False
+                        break
+                
+                # Is placement Valid? If not, restart loop with different direction. If so, place ship on board.
+                if place == False:
+                    continue
+                else:
+                    i=(ship["size"]-1)
+                    while i > 0:
+                        board[y+i][x]=ship["marker"]
+                        i-=1
+                    valid = True
         else:
+            # Check whether ship falls outside the board range
             if x-(ship["size"]-1) < 0:
                 pos_direct.remove(direct)
                 continue
             else:
-                for i in range(1,ship["size"]): 
-                    if not board[y][x-i]==0:
+                place = True
+                # Check whether placement path is clear
+                for i in range(1,ship["size"]-1):
+                    if board[y][x-i] != 0:
                         pos_direct.remove(direct)
-                        continue
-
-                i=(ship["size"]-1)
-                while i > 0:
-                    board[y][x-i]=ship["marker"]
-                    i-=1
-                valid = True
+                        place = False
+                        break
+                
+                # Is placement Valid? If not, restart loop with different direction. If so, place ship on board.
+                if place == False:
+                    continue
+                else:
+                    i=(ship["size"]-1)
+                    while i > 0:
+                        board[y][x-i]=ship["marker"]
+                        i-=1
+                    valid = True
 
 
 generateBoard()
